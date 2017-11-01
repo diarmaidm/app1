@@ -23,48 +23,22 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-  // Custom Middle ware to log out stuff
-  app.use(function(req, res, next) {
-  
-  // Full request
-  // console.log('\nreq:', req);
-  
-  console.log('\n***** Start Log Entry *****\n');
-
-  console.log('Date:', + new Date());  
-  console.log('Date:', new Date().toUTCString());  
-
-  // user-agent
-  console.log('req.headers["user-agent"]:', req.headers["user-agent"]);
-  
-  // request url
-  console.log('req.url:', req.url);
-  // console.log(`\nreq.url: ${req.url}`);
-
-  // request method
-  console.log('req.method:', req.method);
-  
-  // request host
-  console.log('req.headers["host"]:', req.headers["host"]);
-  console.log('req.hostname:', req.hostname);
-  
-  console.log('\n***** End Log Entry *****\n');
-
-  next();
-});
+// Custom Middle ware to log out stuff
+const customLogger = require('./customLogger');
+app.use(customLogger);
 
 app.use('/', index);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
