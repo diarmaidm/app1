@@ -24,8 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Custom Middle ware to log out stuff
-const customLogger = require('./customLogger');
-app.use(customLogger);
+const customlogger = require('customlogger');
+app.use(customlogger);
 
 app.use('/', index);
 app.use('/users', users);
